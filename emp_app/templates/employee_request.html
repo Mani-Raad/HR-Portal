@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Request</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h2>Employee Request</h2>
+    <form method="post" action="{% url 'employee_request' %}">
+        {% csrf_token %}
+        <label for="employee_id">Employee ID:</label>
+        <select name="employee_id" id="employee_id">
+            {% for employee in employees %}
+                <option value="{{ employee.employee_id }}">{{ employee.name }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required><br>
+        <input type="submit" value="Submit Request">
+    </form>
+</body>
+</html>

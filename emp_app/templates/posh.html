@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POSH</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px;
+            margin-right: 5px;
+            border: 1px solid #ddd;
+            border-bottom: none;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+        .active-tab {
+            background-color: #ffffff;
+            border-bottom: 1px solid #ffffff;
+        }
+        .active-content {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h1>POSH</h1>
+    <div class="tabs">
+        <div class="tab" onclick="openTab('what-is-posh')">What is POSH</div>
+        <div class="tab" onclick="openTab('posh-policy')">POSH Policy</div>
+        <div class="tab" onclick="openTab('reporting-mechanism')">Reporting Mechanism</div>
+        <div class="tab" onclick="openTab('report-now')">Report Now</div>
+        <div class="tab" onclick="openTab('status')">Status</div>
+    </div>
+    <div id="what-is-posh" class="tab-content">
+        <h2>What is POSH?</h2>
+        <p>POSH (Prevention of Sexual Harassment) is...</p>
+    </div>
+    <div id="posh-policy" class="tab-content">
+        <h2>POSH Policy</h2>
+        <p>The POSH policy outlines...</p>
+    </div>
+    <div id="reporting-mechanism" class="tab-content">
+        <h2>Reporting Mechanism</h2>
+        <p>To report an incident...</p>
+    </div>
+    <div id="report-now" class="tab-content active-content">
+        <h2>Report Now</h2>
+        <form action="{% url 'report_now' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <h3>Contact Information</h3>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                
+                <label for="preferred_contact">Preferred Contact Method:</label>
+                <select id="preferred_contact" name="preferred_contact">
+                    <option value="email">Email</option>
+                    <option value="phone">Phone</option>
+                </select>
+                
+                <label for="contact_details">Contact Details:</label>
+                <input type="text" id="contact_details" name="contact_details" required>
+            </div>
+            
+            <div class="form-group">
+                <h3>Date of Incident Details</h3>
+                <label for="incident_date">Date:</label>
+                <input type="date" id="incident_date" name="incident_date" required>
+                
+                <label for="incident_time">Time:</label>
+                <input type="time" id="incident_time" name="incident_time">
+                
+                <label for="incident_description">Description:</label>
+                <textarea id="incident_description" name="incident_description" rows="4" required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <h3>Information About the Alleged Harasser</h3>
+                <label for="harasser_name">Name:</label>
+                <input type="text" id="harasser_name" name="harasser_name" required>
+                
+                <label for="harasser_role">Role:</label>
+                <input type="text" id="harasser_role" name="harasser_role">
+                
+                <label for="harasser_department">Department:</label>
+                <input type="text" id="harasser_department" name="harasser_department">
+            </div>
+            
+            <div class="form-group">
+                <h3>Witnesses and Evidence</h3>
+                <label for="witness_name">Witness Name:</label>
+                <input type="text" id="witness_name" name="witness_name">
+                
+                <label for="evidence">Attach Document:</label>
+                <input type="file" id="evidence" name="evidence">
+            </div>
+            
+            <button type="submit">Submit Report</button>
+        </form>
+    </div>
+    <div id="status" class="tab-content">
+        <h2>Status</h2>
+        <p>Status of your reports will be displayed here.</p>
+    </div>
+    <script>
+        function openTab(tabId) {
+            var contents = document.querySelectorAll('.tab-content');
+            var tabs = document.querySelectorAll('.tab');
+
+            contents.forEach(function(content) {
+                if (content.id === tabId) {
+                    content.classList.add('active-content');
+                } else {
+                    content.classList.remove('active-content');
+                }
+            });
+
+            tabs.forEach(function(tab) {
+                if (tab.textContent.toLowerCase().replace(/ /g, '-') === tabId) {
+                    tab.classList.add('active-tab');
+                } else {
+                    tab.classList.remove('active-tab');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+

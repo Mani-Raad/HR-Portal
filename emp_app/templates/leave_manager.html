@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Manager</title>
+    <script>
+        function showTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            // Show the selected tab
+            document.getElementById(tabId).style.display = 'block';
+            // Update active tab class
+            document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            showTab('leave-balance'); // Default tab
+        });
+    </script>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'employee_home' %}">Home</a>
+        <a href="{% url 'my_profile' %}">My Profile</a>
+        <a href="{% url 'leave_manager' %}">Leave Manager</a>
+        <a href="{% url 'payroll' %}">Payroll</a>
+        <a href="{% url 'posh' %}">Posh</a>
+
+    </nav>
+    <h1>Leave Manager</h1>
+    <div class="tabs">
+        <a href="#" class="tab-link" data-tab="leave-balance" onclick="showTab('leave-balance')">Leave Balance</a>
+        <a href="#" class="tab-link" data-tab="apply-leave" onclick="showTab('apply-leave')">Apply Leave</a>
+        <a href="#" class="tab-link" data-tab="leave-status" onclick="showTab('leave-status')">Status</a>
+        <a href="#" class="tab-link" data-tab="leave-history" onclick="showTab('leave-history')">History</a>
+        <a href="#" class="tab-link" data-tab="leave-calendar" onclick="showTab('leave-calendar')">Calendar</a>
+    </div>
+    <div id="leave-balance" class="tab-content">
+        {% include 'leave_balance.html' %}
+    </div>
+    <div id="apply-leave" class="tab-content">
+        {% include 'apply_leave.html' %}
+    </div>
+    <div id="leave-status" class="tab-content">
+        {% include 'leave_status.html' %}
+    </div>
+    <div id="leave-history" class="tab-content">
+        {% include 'leave_history.html' %}
+    </div>
+    <div id="leave-calendar" class="tab-content">
+        {% include 'leave_calendar.html' %}
+    </div>
+</body>
+</html>

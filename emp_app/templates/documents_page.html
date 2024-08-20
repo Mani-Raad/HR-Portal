@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documents</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            padding: 10px;
+            margin-right: 5px;
+            border: 1px solid #ddd;
+            border-bottom: none;
+        }
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-top: none;
+        }
+        .active-tab {
+            background-color: #ffffff;
+            border-bottom: 1px solid #ffffff;
+        }
+        .active-content {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Documents</h1>
+    <div class="tabs">
+        <div class="tab active-tab" onclick="openTab('my-files')">My Files</div>
+        <div class="tab" onclick="openTab('upload-files')">Upload Files</div>
+    </div>
+
+    <div id="my-files" class="tab-content active-content">
+        <h2>My Files</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date and Time Submitted</th>
+                    <th>Location</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for doc in user_documents %}
+                <tr>
+                    <td>{{ doc.get_document_type_display }}</td>
+                    <td>{{ doc.uploaded_at }}</td>
+                    <td><a href="{% url 'download_document' doc.id %}">Download</a></td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No documents found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="upload-files" class="tab-content">
+        <h2>Upload Files</h2>
+        <form action="{% url 'documents_page' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="document_type">Document Type:</label>
+                <select id="document_type" name="document_type" required>
+                    <option value="adhar_card">Aadhaar Card</option>
+                    <option value="graduate_certificate">Graduate Certificate</option>
+                    <option value="experience_letter">Experience Letter</option>
+                    <option value="passport_photo">Passport Size Photo</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="document_file">Upload File:</label>
+                <input type="file" id="document_file" name="document_file" required>
+            </div>
+            <button type="submit" name="upload">Upload Document</button>
+        </form>
+    </div>
+
+    <script>
+        function openTab(tabId) {
+            var contents = document.querySelectorAll('.tab-content');
+            var tabs = document.querySelectorAll('.tab');
+
+            contents.forEach(function(content) {
+                if (content.id === tabId) {
+                    content.classList.add('active-content');
+                } else {
+                    content.classList.remove('active-content');
+                }
+            });
+
+            tabs.forEach(function(tab) {
+                if (tab.textContent.toLowerCase().replace(/ /g, '-') === tabId) {
+                    tab.classList.add('active-tab');
+                } else {
+                    tab.classList.remove('active-tab');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<h2>History</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Employee ID</th>
+            <th>Leave Type</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Status</th>
+            <th>Date Applied On</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in history %}
+            <tr>
+                <td>{{ request.employee.name }}</td>
+                <td>{{ request.employee.emp_id }}</td>
+                <td>{{ request.leave_type.name }}</td>
+                <td>{{ request.start_date }}</td>
+                <td>{{ request.end_date }}</td>
+                <td>{{ request.get_status_display }}</td>
+                <td>{{ request.date_applied }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="7">No history available.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payroll</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .tablink {
+            padding: 10px 20px;
+            background: #ddd;
+            margin-right: 5px;
+            border-radius: 4px;
+            text-align: center;
+            flex: 1;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .tablink.active {
+            background: #bbb;
+            font-weight: bold;
+        }
+        .tabcontent {
+            display: none;
+        }
+        .tabcontent.active {
+            display: block;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <div class="tabs">
+        <button class="tablink" onclick="openTab(event, 'EmployeeRequest')">Employee Request</button>
+        <button class="tablink" onclick="openTab(event, 'ViewGenerate')">View/Generate</button>
+    </div>
+
+    <div id="EmployeeRequest" class="tabcontent">
+        <h2>Employee Request</h2>
+        <form method="post" action="{% url 'employee_request' %}">
+            {% csrf_token %}
+            <label for="employee_id">Employee ID:</label>
+            <select name="employee_id" id="employee_id">
+                {% for employee in employees %}
+                    <option value="{{ employee.employee_id }}">{{ employee.name }}</option>
+                {% endfor %}
+            </select><br>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" required><br>
+            <input type="submit" value="Submit Request">
+        </form>
+    </div>
+
+    <div id="ViewGenerate" class="tabcontent">
+        <h2>View/Generate</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                    <tr>
+                        <td>{{ request.employee.name }}</td>
+                        <td>{{ request.subject }}</td>
+                        <td>{{ request.request_date }}</td>
+                        <td>
+                            <a href="{% url 'pay_slip' request.employee.employee_id %}">View Pay Slip</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function openTab(event, tabId) {
+            // Hide all tab content
+            document.querySelectorAll('.tabcontent').forEach(tab => tab.classList.remove('active'));
+            
+            // Remove 'active' class from all tab links
+            document.querySelectorAll('.tablink').forEach(tab => tab.classList.remove('active'));
+
+            // Show the current tab and add an 'active' class to the clicked tab
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Set default tab
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.tablink').click(); // Simulate click on the first tab
+        });
+    </script>
+</body>
+</html>

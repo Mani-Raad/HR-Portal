@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pay Slip</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h2>Pay Slip for {{ employee.name }}</h2>
+    <p>Employee ID: {{ employee.employee_id }}</p>
+    <p>Position: {{ employee.position }}</p>
+    <p>Salary: {{ employee.salary }}</p>
+    <!-- Add more details as necessary -->
+</body>
+</html>

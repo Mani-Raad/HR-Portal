@@ -1,0 +1,30 @@
+<h2>Pending Requests</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Employee ID</th>
+            <th>Leave Type</th>
+            <th>Date Applied On</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for request in pending_requests %}
+            <tr>
+                <td>{{ request.employee.name }}</td>
+                <td>{{ request.employee.emp_id }}</td>
+                <td>{{ request.leave_type.name }}</td>
+                <td>{{ request.date_applied }}</td>
+                <td>
+                    <a href="{% url 'approve_request' request.id %}">Approve</a> |
+                    <a href="{% url 'reject_request' request.id %}">Reject</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No pending requests.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

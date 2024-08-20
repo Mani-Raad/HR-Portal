@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ department.name }} Employees</title>
+</head>
+<body>
+    <h1>Employees in {{ department.name }} Department</h1>
+    <ul>
+        {% for employee in employees %}
+            <li><a href="{% url 'employee_detail' employee.id %}">{{ employee.name }}</a></li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

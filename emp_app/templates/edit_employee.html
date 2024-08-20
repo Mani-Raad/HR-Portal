@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Admin Dashboard - RAAD M Miraai Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Welcome to the RAAD M Miraai Admin Portal. Oversee departments, manage employee records, and stay updated with notifications like POSH training.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+            /* General Reset */
+   
+    /* Highlight specific dropdown menu item */
+.highlighted-department {
+  background-color: rgb(180, 169, 6); /* Light blue color */
+  color: #01007E; /* Text color */
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px 16px; /* Ensure padding to show background color */
+  display: block; /* Ensure full width background color */
+}
+
+/* Adjust text color for the highlighted item */
+.highlighted-department:hover {
+  background-color:  rgb(180, 169, 6); /* Slightly darker light blue on hover */
+}
+   
+
+        html, body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333333;
+        }
+
+        .admin-home-page {
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: white;
+            padding: 10px;
+            border-bottom: 2px solid #01007e; /* Blue border for header */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for header */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header_logo {
+            display: block;
+            margin-left: 15px; /* Space between logo and left edge */
+        }
+
+        .header_right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header_search {
+            display: flex;
+            align-items: center;
+            border-radius: 25px;
+            padding: 5px;
+            margin-right: 15px; /* Space between search bar and logout button */
+            flex: 0 0 auto;
+            width: 600px; /* Width for the search bar */
+            border: 1px solid #333; /* Light black border */
+            position: relative; /* For absolute positioning of the icon */
+        }
+
+        .header_search input {
+            border: none;
+            outline: none;
+            padding: 8px 40px 8px 12px; /* Add padding to make space for the icon */
+            flex: 1;
+            height: 36px; /* Standard height */
+            border-radius: 25px; /* Rounded corners for the input */
+            background: #fafafa; /* Light background for the input */
+        }
+
+        .header_search .fa-search {
+            color: #333; /* Dark color for the icon */
+            font-size: 18px;
+            position: absolute;
+            right: 10px; /* Position icon to the right */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header_logout-button {
+            background-color: red;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .header_logout-button:hover {
+            background-color: darkred;
+        }
+
+        .content {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #01007e;
+            color: white;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .sidebar__profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar__profile-image {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .sidebar___user-info h5, .sidebar___user-info p {
+            margin: 0;
+        }
+
+        .sidebar___menu {
+            list-style: none;
+        }
+
+        .sidebar___menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar___menu a {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar___menu a:hover {
+            background-color: rgb(180, 169, 6);
+        }
+
+        .sidebar__menu-item-icon {
+            margin-right: 10px;
+        }
+
+        .sidebar___submenu-item-toggle,
+        .sidebar__submenu-item-toggle-1 {
+            width: 16px;
+            height: 16px;
+            margin-left: auto;
+        }
+
+        .sidebar___submenu-item-toggle {
+            display: none;
+        }
+
+        .dhi-group-1 {
+            list-style: none;
+            padding-left: 20px;
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .dhi-group-1.show {
+            display: block;
+        }
+
+        .dhi-group-1 li {
+            margin-bottom: 10px;
+        }
+
+        .dhi-group-1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        
+
+        h1 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Form Container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align items to the left */
+  max-width: 800px; /* Adjust width as needed */
+  margin: 20px auto; /* Center container horizontally */
+  padding: 20px;
+}
+
+/* Form Heading */
+.form-heading {
+  font-size: 24px;
+  font-weight: 700;
+  color: #01007e;
+  margin-bottom: 20px;
+}
+
+/* Form Styling */
+.edit-employee-form {
+  width: 100%;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.edit-employee-form p {
+  margin-bottom: 20px;
+}
+
+.edit-employee-form input,
+.edit-employee-form textarea,
+.edit-employee-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 10px; /* Space between fields */
+}
+
+.edit-employee-form input:focus,
+.edit-employee-form textarea:focus,
+.edit-employee-form select:focus {
+  border-color: #01007e;
+  outline: none;
+  box-shadow: 0 0 3px rgba(1, 0, 126, 0.3);
+}
+
+/* Submit Button */
+.submit-button {
+  padding: 15px 25px;
+  background-color: green;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-button:hover {
+  background-color: #0200b3;
+}
+
+.submit-button:active {
+  transform: scale(0.98);
+}
+
+/* Link */
+.view-details-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #01007e;
+  text-decoration: underline;
+}
+
+.view-details-link:hover {
+  color: #0200b3;
+}
+    </style>
+</head>
+<body>
+    <!-- Main container section -->
+    <div class="admin-home-page">
+        <header class="header">
+            <img src="https://raad-m.com/wp-content/uploads/2024/07/cropped-Raad-m-1.jpg" alt="Company Logo" class="header_logo" height="85" width="85">
+            <div class="header_right">
+                <label class="header_search">
+                    <input name="Search Field" placeholder="Search" type="text">
+                    <i class="fa fa-search"></i>
+                </label>
+                <a href="{% url 'logout' %}" class="header_logout-button">Logout</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Sidebar section -->
+            <aside class="sidebar">
+                <div class="sidebar__profile">
+                    <img src="https://media.istockphoto.com/id/1245196894/photo/head-shot-close-up-portrait-of-young-confident-businessman.jpg?s=1024x1024&w=is&k=20&c=pNsWu1TjQh5VyQU86KUtuvxgrKu-oiEwLEKgpQj3uP0=" alt="User Avatar" class="sidebar__profile-image">
+                    <div class="sidebar___user-info">
+                        <h5 class="ui heading size-headingxs">Prakash</h5>
+                        <p class="ui heading size-textxs">Admin</p>
+                    </div>
+                </div>
+                <ul class="sidebar___menu">
+                    <li>
+                        <a href="#">
+                            <img src="https://cdn-icons-png.flaticon.com/128/2626/2626923.png" alt="Home Icon" class="sidebar__menu-item-icon" height="24" width="24">
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="submenu" href="#">
+                            <img src="https://cdn-icons-png.flaticon.com/128/15872/15872709.png" alt="Departments Icon" class="sidebar__menu-item-icon" height="20" width="20">
+                            <span>Departments</span>
+                            <img src="https://cdn-icons-png.flaticon.com/128/226/226188.png" alt="Collapse Icon" class="sidebar___submenu-item-toggle">
+                        </a>
+                        <ul class="dhi-group-1">
+                          <a href="/hr_employees">HR</a>
+                          <a href="/management" >Management</a>
+                          <a href="/sales_employees" >Sales</a>
+                          <a href="/finance_employees" >Finance</a>
+                          <a href="/digital_employees" >Digital</a>
+                          <a href="/it_employees" >IT</a>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{% url 'add_emp' %}">
+                            <img src="https://cdn-icons-png.flaticon.com/128/14655/14655857.png" alt="Add Employee Icon" class="sidebar__menu-item-icon" height="24" width="24">
+                            <span>Add employee</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'internal_message' %}">
+                            <img src="https://cdn-icons-png.flaticon.com/128/9195/9195102.png" alt="Internal Message Icon" class="sidebar__menu-item-icon" height="18" width="18">
+                            <span>Internal Message</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+            <div class="form-container">
+                <h1 class="form-heading">Edit Employee: {{ employee.first_name }} {{ employee.last_name }}</h1>
+                <form method="post" class="edit-employee-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="submit-button">Save Changes</button>
+                </form>
+                <a href="{% url 'employee_detail' employee.id %}" class="view-details-link">View Details</a>
+            </div>
+            
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submenuLink = document.querySelector('.submenu');
+            const submenu = document.querySelector('.dhi-group-1');
+            const collapseIcon = document.querySelector('.sidebar___submenu-item-toggle');
+            const expandIcon = document.querySelector('.sidebar__submenu-item-toggle-1');
+
+            submenuLink.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default anchor behavior
+
+                if (submenu.classList.contains('show')) {
+                    submenu.classList.remove('show');
+                    collapseIcon.style.display = 'block';
+                    expandIcon.style.display = 'none';
+                } else {
+                    submenu.classList.add('show');
+                    collapseIcon.style.display = 'none';
+                    expandIcon.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

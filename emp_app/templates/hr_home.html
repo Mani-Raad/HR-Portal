@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Admin Dashboard - RAAD M Miraai Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="Welcome to the RAAD M Miraai Admin Portal. Oversee departments, manage employee records, and stay updated with notifications like POSH training.">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333333;
+        }
+
+        .admin-home-page {
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .header {
+            background-color: white;
+            padding: 10px;
+            border-bottom: 2px solid #01007e; /* Blue border for header */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for header */
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header_logo {
+            display: block;
+            margin-left: 15px; /* Space between logo and left edge */
+        }
+
+        .header_right {
+            display: flex;
+            align-items: center;
+        }
+
+        .header_search {
+            display: flex;
+            align-items: center;
+            border-radius: 25px;
+            padding: 5px;
+            margin-right: 15px; /* Space between search bar and logout button */
+            flex: 0 0 auto;
+            width: 600px; /* Width for the search bar */
+            border: 1px solid #333; /* Light black border */
+            position: relative; /* For absolute positioning of the icon */
+        }
+
+        .header_search input {
+            border: none;
+            outline: none;
+            padding: 8px 40px 8px 12px; /* Add padding to make space for the icon */
+            flex: 1;
+            height: 36px; /* Standard height */
+            border-radius: 25px; /* Rounded corners for the input */
+            background: #fafafa; /* Light background for the input */
+        }
+
+        .header_search .fa-search {
+            color: #333; /* Dark color for the icon */
+            font-size: 18px;
+            position: absolute;
+            right: 10px; /* Position icon to the right */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .header_logout-button {
+            background-color: red;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .header_logout-button:hover {
+            background-color: darkred;
+        }
+
+        .content {
+            display: flex;
+            flex: 1;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #01007e;
+            color: white;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .sidebar__profile {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar__profile-image {
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            margin-right: 10px;
+        }
+
+        .sidebar___user-info h5, .sidebar___user-info p {
+            margin: 0;
+        }
+
+        .sidebar___menu {
+            list-style: none;
+        }
+
+        .sidebar___menu li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar___menu a {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .sidebar___menu a:hover {
+            background-color: rgb(180, 169, 6);
+        }
+
+        .sidebar__menu-item-icon {
+            margin-right: 10px;
+        }
+
+        .sidebar___submenu-item-toggle,
+        .sidebar__submenu-item-toggle-1 {
+            width: 16px;
+            height: 16px;
+            margin-left: auto;
+        }
+
+        .sidebar___submenu-item-toggle {
+            display: none;
+        }
+
+        .dhi-group-1 {
+            list-style: none;
+            padding-left: 20px;
+            display: none;
+            transition: all 0.3s ease;
+        }
+
+        .dhi-group-1.show {
+            display: block;
+        }
+
+        .dhi-group-1 li {
+            margin-bottom: 10px;
+        }
+
+        .dhi-group-1 a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .main {
+            flex: 1;
+            padding: 20px;
+            background-color: white;
+            margin-left: 250px; /* Sidebar width */
+        }
+
+        .greeting_column h1,
+        .greeting_column h2 {
+            margin-bottom: 10px;
+        }
+
+        .greeting_message {
+            margin: 0;
+        }
+
+        .main__upcoming {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .upcoming_list {
+            display: flex;
+            flex-direction: column;
+            margin-top: 20px; /* Ensure space from the greeting section */
+        }
+
+        .holiday-card,
+        .holiday-card-1 {
+            background-color: #fafafa;
+            border-radius: 5px;
+            padding: 20px; /* Adjusted padding for better spacing */
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center; /* Align items center for better vertical alignment */
+        }
+
+        .holiday-card_column--upcoming {
+            flex: 1;
+        }
+
+        .holiday-card_column--details {
+            margin-top: 10px;
+        }
+
+        .holiday-card___column--date {
+            margin-bottom: 5px;
+        }
+
+        .holiday-card_column--images img {
+            margin-left: 15px; /* Increased margin for better separation */
+            width: 30px; /* Adjusted icon size */
+            height: auto;
+        }
+
+        .notifications_icon {
+            width: 25px; /* Adjusted size */
+            height: auto;
+        }
+
+        .holiday-card_flag-image {
+            width: 50px; /* Adjusted size */
+            height: auto;
+        }
+
+        .main__updates {
+            background-color: #fafafa;
+            border-radius: 5px;
+            padding: 20px; /* Adjusted padding for better spacing */
+            margin-top: 20px; /* Ensure space from the upcoming list section */
+        }
+
+        .updates__notifications {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px; /* Increased margin for better spacing */
+        }
+
+        .notifications__icon {
+            width: 25px; /* Adjusted size */
+            height: auto;
+            margin-left: auto;
+        }
+
+        .updates___columns {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .updates___column--posh {
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .posh_time {
+            color: #555;
+        }
+
+        .greeting_column h2 {
+            color: #01007e; /* Blue color */
+        }
+    </style>
+</head>
+<body>
+    <!-- Main container section -->
+    <div class="admin-home-page">
+        <header class="header">
+            <img src="https://raad-m.com/wp-content/uploads/2024/07/cropped-Raad-m-1.jpg" alt="Company Logo" class="header_logo" height="85" width="85">
+            <div class="header_right">
+                <label class="header_search">
+                    <input name="Search Field" placeholder="Search" type="text">
+                    <i class="fa fa-search"></i>
+                </label>
+                <a href="{% url 'logout' %}" class="header_logout-button">Logout</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- Sidebar section -->
+            <aside class="sidebar">
+                <div class="sidebar__profile">
+                    <img src="https://media.istockphoto.com/id/1245196894/photo/head-shot-close-up-portrait-of-young-confident-businessman.jpg?s=1024x1024&w=is&k=20&c=pNsWu1TjQh5VyQU86KUtuvxgrKu-oiEwLEKgpQj3uP0=" alt="User Avatar" class="sidebar__profile-image">
+                    <div class="sidebar___user-info">
+                        <h5 class="ui heading size-headingxs">Prakash</h5>
+                        <p class="ui heading size-textxs">Admin</p>
+                    </div>
+                </div>
+                <ul class="sidebar___menu">
+                    <li>
+                        <a href="{% url 'hr_home' %}">
+                            <img src="https://cdn-icons-png.flaticon.com/128/2626/2626923.png" alt="Home Icon" class="sidebar__menu-item-icon" height="24" width="24">
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="submenu" href="#">
+                            <img src="https://cdn-icons-png.flaticon.com/128/15872/15872709.png" alt="Departments Icon" class="sidebar__menu-item-icon" height="20" width="20">
+                            <span>Departments</span>
+                            <img src="https://cdn-icons-png.flaticon.com/128/226/226188.png" alt="Collapse Icon" class="sidebar___submenu-item-toggle">
+                        </a>
+                        <ul class="dhi-group-1">
+                          <a href="/hr_hr_employees">HR</a>
+                          <a href="/hr_management">Management</a>
+                          <a href="/hr_sales_employees">Sales</a>
+                          <a href="/hr_finance_employees">Finance</a>
+                          <a href="/hr_digital_employees">Digital</a>
+                          <a href="/hr_it_employees">IT</a>
+                        </ul>
+                    </li>
+                     
+                    <li>
+                        <a href="{% url 'hr_leave_manager' %}">
+                            <img src="https://cdn-icons-png.flaticon.com/128/9195/9195102.png" alt="Internal Message Icon" class="sidebar__menu-item-icon" height="18" width="18">
+                            <span>Leave Manager</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'hr_payroll' %}">
+                            <img src="https://cdn-icons-png.flaticon.com/128/9195/9195102.png" alt="Internal Message Icon" class="sidebar__menu-item-icon" height="18" width="18">
+                            <span>Payroll</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'hr_posh' %}">
+                            <img src="https://cdn-icons-png.flaticon.com/128/9195/9195102.png" alt="Internal Message Icon" class="sidebar__menu-item-icon" height="18" width="18">
+                            <span>Posh</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'hr_internal_message' %}">
+                            <img src="https://cdn-icons-png.flaticon.com/128/9195/9195102.png" alt="Internal Message Icon" class="sidebar__menu-item-icon" height="18" width="18">
+                            <span>Internal Message</span>
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+
+            
+           
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const submenuLink = document.querySelector('.submenu');
+            const submenu = document.querySelector('.dhi-group-1');
+            const collapseIcon = document.querySelector('.sidebar___submenu-item-toggle');
+            const expandIcon = document.querySelector('.sidebar__submenu-item-toggle-1');
+
+            submenuLink.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent the default anchor behavior
+
+                if (submenu.classList.contains('show')) {
+                    submenu.classList.remove('show');
+                    collapseIcon.style.display = 'block';
+                    expandIcon.style.display = 'none';
+                } else {
+                    submenu.classList.add('show');
+                    collapseIcon.style.display = 'none';
+                    expandIcon.style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

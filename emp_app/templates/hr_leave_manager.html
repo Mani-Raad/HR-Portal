@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .tabs {
+            display: flex;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            background: #ddd;
+            margin-right: 5px;
+            border-radius: 4px;
+            text-align: center;
+            flex: 1;
+        }
+        .tab.active {
+            background: #bbb;
+            font-weight: bold;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Leave Manager</h1>
+        <div class="tabs">
+            <div class="tab" onclick="showTab('pending')">Pending Requests</div>
+            <div class="tab" onclick="showTab('history')">History</div>
+            <div class="tab" onclick="showTab('calendar')">Calendar</div>
+            <div class="tab" onclick="showTab('swap')">Swap</div>
+        </div>
+
+       
+
+        <div id="history" class="tab-content">
+            {% include 'history.html' %}
+        </div>
+        <div id="calendar" class="tab-content">
+            {% include 'calendar.html' %}
+        </div>
+        <div id="swap" class="tab-content">
+            {% include 'swap.html' %}
+        </div>
+        
+    </div>
+
+    <script>
+        function showTab(tabId) {
+            // Remove active class from all tabs and tab contents
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active-content'));
+            
+            // Add active class to the clicked tab and corresponding content
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+            document.getElementById(tabId).classList.add('active-content');
+        }
+        // Set default tab
+        showTab('pending');
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payroll</title>
+   
+</head>
+<body>
+    <div class="tabs">
+        <button class="tablink" onclick="openTab(event, 'EmployeeRequest')">Employee Request</button>
+        <button class="tablink" onclick="openTab(event, 'ViewGenerate')">View/Generate</button>
+    </div>
+
+    <div id="EmployeeRequest" class="tabcontent">
+        <h2>Employee Request</h2>
+        <form method="post" action="{% url 'employee_request' %}">
+            {% csrf_token %}
+            <label for="employee_id">Employee ID:</label>
+            <select name="employee_id" id="employee_id">
+                {% for employee in employees %}
+                    <option value="{{ employee.employee_id }}">{{ employee.name }}</option>
+                {% endfor %}
+            </select><br>
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" required><br>
+            <input type="submit" value="Submit Request">
+        </form>
+    </div>
+
+    <div id="ViewGenerate" class="tabcontent">
+        <h2>View/Generate</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in requests %}
+                    <tr>
+                        <td>{{ request.employee.name }}</td>
+                        <td>{{ request.subject }}</td>
+                        <td>{{ request.request_date }}</td>
+                        <td>
+                            <a href="{% url 'pay_slip' request.employee.employee_id %}">View Pay Slip</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+   
+</body>
+</html>

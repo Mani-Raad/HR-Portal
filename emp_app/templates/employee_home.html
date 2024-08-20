@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Employee Dashboard - RAAD-M Mirai Self Service Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description" content="Welcome to the RAAD-M Mirai employee dashboard. Access your profile, leave manager, payroll details, and more." />
+    <!-- Include FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: white;
+            color: black;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .header_search {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            border-radius: 10px;
+            border: 1px solid #000;
+            padding: 5px;
+            margin-right: 20px;
+            width: 500px;
+        }
+
+        .header_search input {
+            border: none;
+            background: transparent;
+            color: #000;
+            padding: 5px;
+            width: 100%;
+            outline: none;
+        }
+
+        .header_button--logout {
+            background-color: #8B0000;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-right: 40px; /* Increased right margin */
+        }
+
+        .header_logo {
+            margin-left: 40px; /* Added left margin */
+        }
+
+        /* Flexbox Alignment */
+        .header_row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .screen-body {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #01007e;
+            color: #fff;
+            width: 250px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0; /* Prevent sidebar from shrinking */
+            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+        }
+
+        .sidebar_item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .sidebar_icon {
+            width: 24px; /* Standardize icon size */
+            height: 24px; /* Standardize icon size */
+            margin-right: 10px; /* Consistent margin between icon and text */
+        }
+
+        .sidebar_profile {
+            margin-left: 10px;
+            padding: 0; /* Remove padding */
+        }
+
+        .sidebar_name {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 0; /* Remove margin */
+        }
+
+        .sidebar_role {
+            font-size: 14px;
+            margin: 0; /* Remove margin */
+        }
+
+        .sidebar_menu {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .sidebar_menu li {
+            margin: 10px 0;
+        }
+
+        .sidebar_menu a {
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .sidebar_menu_icon {
+            width: 24px; /* Standardize icon size */
+            height: 24px; /* Standardize icon size */
+            margin-right: 10px; /* Consistent margin between icon and text */
+        }
+
+        .sidebar_menu .active {
+            background-color: #fff;
+            color: #01007e;
+        }
+
+        .sidebar_menu a span {
+            flex-grow: 1;
+        }
+
+        .main-column {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .greeting_text {
+            font-size: 24px;
+        }
+
+        .welcome_message_span {
+            font-size: 20px;
+        }
+
+        .welcome_message_span_1 {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .content-row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .upcoming-section {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .upcoming-column {
+            flex-grow: 1;
+        }
+
+        .holiday-card {
+            display: flex;
+            justify-content: space-between;
+            background: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .holiday-info h3 {
+            margin: 0 0 10px;
+        }
+
+        .holiday-date-column {
+            display: flex;
+        }
+
+        .date-column {
+            margin-right: 20px;
+        }
+
+        .holiday_day {
+            font-size: 14px;
+        }
+
+        .holiday_name {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .arrow-column {
+            display: flex;
+            align-items: center;
+        }
+
+        .navigation_arrow--right-1 {
+            width: 20px;
+        }
+
+        .holiday_flag {
+            width: 40px;
+        }
+
+        .schedule-section {
+            background: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .schedule-column h5 {
+            margin-top: 0;
+        }
+
+        .meeting-column {
+            margin-top: 10px;
+        }
+
+        .meeting-info {
+            margin-bottom: 10px;
+        }
+
+        .meeting-details {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .meeting-details_row {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meeting-list {
+            margin-top: 10px;
+        }
+
+        .leaves-column {
+            margin-top: 20px;
+        }
+
+        .leaves-row h6 {
+            margin-top: 0;
+        }
+
+        .leaves-detail {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .summary_used {
+            font-size: 14px;
+        }
+
+        .summary_used_value, .summary_balance_value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .leave-stack {
+            margin-top: 20px;
+        }
+
+        .leave-request-row {
+            background: #fff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .leave-request-status, .leave-request-status-1, .leave-request-status-2 {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .leave-request-status_icons img {
+            width: 20px;
+        }
+
+        .ellipse {
+            height: 20px;
+            width: 20px;
+            background: #3498db;
+            border-radius: 50%;
+            margin: 10px 0;
+        }
+
+        .leave-request_status_button {
+            background-color: #3498db;
+            border: none;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+
+            .header_search {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .main-column {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header_search {
+                width: 100%;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                overflow-y: auto;
+                z-index: 1000;
+            }
+
+            .screen-body {
+                flex-direction: column;
+            }
+
+            .main-column {
+                margin-left: 0;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header_row">
+            <div class="header_logo">
+                <img src="https://raad-m.com/wp-content/uploads/2024/07/cropped-Raad-m-1.jpg" alt="Header Logo" class="header_logo" height="80px" width="80px"/>
+            </div>
+            <label class="header_search">
+                <input type="text" placeholder="Search" />
+                <div class="search_icon_container">
+                    <img src="https://cdn-icons-png.flaticon.com/128/54/54481.png" alt="Search Icon" class="search_icon" height="18px" width="18px"/>
+                </div>
+            </label>
+            <button class="header_button--logout">Logout</button>
+        </div>
+    </header>
+
+    <div class="screen-body">
+        <aside class="sidebar">
+            <div class="sidebar_item">
+                <img src="https://img.icons8.com/?size=48&id=108295&format=png" alt="Profile Picture" class="sidebar_icon" height="40px" width="40px"/>
+                <div class="sidebar_profile">
+                    <h5 class="sidebar_name">Aditi Rao</h5>
+                    <p class="sidebar_role">Content Creator</p>
+                </div>
+            </div>
+            <ul class="sidebar_menu">
+                <li><a href="{% url 'employee_home' %}" class="active"><i class="fas fa-home sidebar_menu_icon"></i><span> Home</span></a></li>
+                <li><a href="{% url 'my_profile' %}"><i class="fas fa-user sidebar_menu_icon"></i><span> My Profile</span></a></li>
+                <li><a href="{% url 'leave_manager' %}"><i class="fas fa-calendar-alt sidebar_menu_icon"></i><span> Leave Manager</span></a></li>
+                <li><a href="{% url 'payroll' %}"><i class="fas fa-dollar-sign sidebar_menu_icon"></i><span> Payroll</span></a></li>
+                <li><a href="{% url 'posh' %}"><i class="fas fa-shield-alt sidebar_menu_icon"></i><span> POSH</span></a></li>
+                <li><a href="{% url 'documents' %}"><i class="fas fa-file-alt sidebar_menu_icon"></i><span> Documents</span></a></li>
+                <li><a href="{% url 'reach_us' %}"><i class="fas fa-phone sidebar_menu_icon"></i><span> Reach us</span></a></li>
+            </ul>
+            
+        </aside>
+
+        <div class="main-column">
+            <div class="greeting_text">
+                <span class="welcome_message_span">Good Morning...</span><br>
+                    <span class="welcome_message_span_1">Welcome to RAAD-M Mirai a self service portal for employees<span>
+            </div>
+
+            <div class="content-row">
+                <div class="upcoming-section">
+                    <div class="upcoming-column">
+                        <div class="holiday-card">
+                            <div class="holiday-info">
+                                <h3>Upcoming Holidays</h3>
+                                <div class="holiday-date-column">
+                                    <div class="date-column">
+                                        <div class="holiday_day">26th JAN</div>
+                                        <div class="holiday_name">Republic Day</div>
+                                    </div>
+                                    <div class="arrow-column">
+                                        <img src="https://cdn-icons-png.flaticon.com/128/61/61178.png" alt="Arrow Right" class="navigation_arrow--right-1" height="20px" width="20px" />
+                                    </div>
+                                    <div class="holiday_flag">
+                                        <img src="https://cdn-icons-png.flaticon.com/128/256/256672.png" alt="Flag" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-section">
+                    <div class="schedule-column">
+                        <h5>Upcoming Meetings</h5>
+                        <div class="meeting-column">
+                            <div class="meeting-info">
+                                <div class="meeting-details">
+                                    <div class="meeting-details_row">
+                                        <strong>Team Sync</strong>
+                                        <span>August 21, 2024</span>
+                                    </div>
+                                    <span>10:00 AM</span>
+                                </div>
+                            </div>
+                            <div class="meeting-info">
+                                <div class="meeting-details">
+                                    <div class="meeting-details_row">
+                                        <strong>Project Update</strong>
+                                        <span>August 23, 2024</span>
+                                    </div>
+                                    <span>2:00 PM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="leaves-column">
+                        <h5>Leave Summary</h5>
+                        <div class="leaves-row">
+                            <div class="leave-summary">
+                                <strong>Used</strong>
+                                <span class="summary_used_value">5 days</span>
+                            </div>
+                            <div class="leave-summary">
+                                <strong>Balance</strong>
+                                <span class="summary_balance_value">10 days</span>
+                            </div>
+                        </div>
+                        <div class="leave-stack">
+                            <div class="leave-request-row">
+                                <div class="leave-request-status">
+                                    <span>Leave Request Status</span>
+                                    <div class="leave-request-status_icons">
+                                        <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRaOPOY5TEItQz3Lvy19mglDASbxcZKBlpF0eDtMUAi88rkBrqD" alt="Leave Status" />
+                                    </div>
+                                </div>
+                                <button class="leave-request_status_button">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

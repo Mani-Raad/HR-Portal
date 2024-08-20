@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View/Generate</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <h2>View/Generate Requests</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>Subject</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+                <tr>
+                    <td>{{ request.employee.name }}</td>
+                    <td>{{ request.subject }}</td>
+                    <td>{{ request.request_date }}</td>
+                    <td>
+                        <a href="{% url 'pay_slip' request.employee.employee_id %}">View Pay Slip</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

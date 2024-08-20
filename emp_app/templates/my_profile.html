@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile</title>
+    <!-- Bootstrap CSS for styling and tabs -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .nav-tabs .nav-link.active {
+            background-color: #e9ecef;
+            border-color: #dee2e6 #dee2e6 #fff;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="{% url 'employee_home' %}">Home</a>
+        <a href="{% url 'my_profile' %}">My Profile</a>
+        <a href="{% url 'leave_manager' %}">Leave Manager</a>
+        <a href="{% url 'payroll' %}">Payroll</a>
+        <a href="{% url 'posh' %}">Posh</a>
+        <a href="{% url 'documents' %}">Documents</a>
+        <a href="{% url 'reach_us' %}">Reach Us</a>
+        
+    </nav>
+    <div class="container mt-4">
+        <h1>My Profile</h1>
+        <!-- Tabs Navigation -->
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="personal-details-tab" data-bs-toggle="tab" href="#personal-details" role="tab" aria-controls="personal-details" aria-selected="true">Personal Details</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="employment-details-tab" data-bs-toggle="tab" href="#employment-details" role="tab" aria-controls="employment-details" aria-selected="false">Employment Details</a>
+            </li>
+        </ul>
+
+        <!-- Tabs Content -->
+        <div class="tab-content mt-3" id="myTabContent">
+            <!-- Personal Details Tab -->
+            <div class="tab-pane fade show active" id="personal-details" role="tabpanel" aria-labelledby="personal-details-tab">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone Number</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for emp in emps %}
+                        <tr>
+                            <td>{{ emp.id }}</td>
+                            <td>{{ emp.first_name }}</td>
+                            <td>{{ emp.last_name }}</td>
+                            <td>{{ emp.phone }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="4">No personal details available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Employment Details Tab -->
+            <div class="tab-pane fade" id="employment-details" role="tabpanel" aria-labelledby="employment-details-tab">
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Date of Joining</th>
+                            <th>Department</th>
+                            <th>Manager</th>
+                            <th>Designation</th>
+                            <th>Salary</th>
+                            <th>Location</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for emp in emps %}
+                        <tr>
+                            <td>{{ emp.id }}</td>
+                            <td>{{ emp.doj }}</td>
+                            <td>{{ emp.department }}</td>
+                            <td>{{ emp.manager }}</td>
+                            <td>{{ emp.designation }}</td>
+                            <td>{{ emp.salary }}</td>
+                            <td>{{ emp.location }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7">No employment details available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+</body>
+</html>
